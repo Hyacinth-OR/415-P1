@@ -51,6 +51,7 @@ def consecgcd(m, n):
 def middleschool(m,n):
     mprimes = sieve(m)
     nprimes = sieve(n)
+    g = max(len(mprimes),len(nprimes))
     divs = 0
     divs += mprimes[len(mprimes)-1]
     mprimes.pop(len(mprimes)-1)
@@ -58,16 +59,38 @@ def middleschool(m,n):
     nprimes.pop(len(nprimes) - 1)
     common = intersection(mprimes,nprimes)
     sum = 1
+    ops = common.pop((len(common)-1))
     for elem in common:
         sum = sum * elem
     pack = []
     pack.append(sum)
-    pack.append(divs)
+    pack.append(ops)
+    pack.append(g)
     return pack
 
 
-def intersection(list1,list2):
-    list3 = list((Counter(list1)& Counter(list2)).elements())
+def intersection(a,b):
+    # list3 = list((Counter(list1)& Counter(list2)).elements())
+    list3 = []
+    i,j = 0,0
+    comparisons = 0
+    appends=0
+    while i < len(a) and j < len(b):
+        comparisons+=2
+        appends+=1
+        if a[i] == b[j]:
+            comparisons += 1
+            list3.append(a[i])
+            i += 1
+            j += 1
+        elif a[i] > b[j]:
+            comparisons += 1
+            j += 1
+        else:
+            comparisons += 1
+            i += 1
+
+    list3.append(appends)
     return list3
 
 def task1makeplot():
@@ -131,15 +154,16 @@ def task3makeplot():
     fix,mx = plt.subplots()
     mx.set_title(title)
     mx.scatter(u, u, c=None, s=None, alpha=.7)
-    mx.set_ylabel("# of divisions")
-    mx.set_xlabel("Value of M")
-    mx.axis([0,u,0,u])
+    mx.set_ylabel("# of operations")
+    mx.set_xlabel("Value of 'g'")
+    mx.axis([0,20,0,20])
+    plots = 0
     for i in range(2000):
         m = random.randint(0,u)
         n = random.randint(0,m)
         unpack = middleschool(m,n)
-        mx.plot(m,unpack[1], 'bo',markersize = 5)
-
+        mx.plot(unpack[2],unpack[1], 'bo',markersize = 5)
+        plots+=1
     plt.show()
 def sieve(n):
     pack = []
