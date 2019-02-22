@@ -106,7 +106,7 @@ def task1makeplot():
     ax.set_title(title1)
     ax.set_ylabel("# of Divisions")
     ax.set_xlabel("Value approaching N")
-    ax.axis([0,math.sqrt(n/2),0,math.sqrt(n/2)])
+    ax.axis([0,(n/2),0,(n/60)])
 
     fig,tx = plt.subplots()
     tx.scatter(n, 3 * n, c='g', s=None, alpha=.7, label="Consecutive Integer Checking")
