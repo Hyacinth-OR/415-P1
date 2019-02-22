@@ -94,31 +94,43 @@ def intersection(a,b):
     return list3
 
 def task1makeplot():
+    import math
     n = random.randint(1000,2500)
     fig, ax = plt.subplots()
     ax.scatter(n, 3*n,c = 'r',s = None, alpha = .7,label = "Euclidean Algorithm")
-    ax.scatter(n, 3 * n, c='g', s=None, alpha=.7, label= "Consecutive Integer Checking")
+
     ax.grid(False)
     fig.tight_layout()
-    title = "GCD Algorithms & Divisions from N=0 to N=" + str(n)
-    ax.set_title(title)
+    title = "Divisions from N=0 to N=" + str(n)
+    title1 = "Euclidean Algorithm " + title
+    ax.set_title(title1)
     ax.set_ylabel("# of Divisions")
     ax.set_xlabel("Value approaching N")
-    ax.axis([0,n,0,n])
-    ax.legend(loc = 'upper right')
+    ax.axis([0,math.sqrt(n/2),0,math.sqrt(n/2)])
+
+    fig,tx = plt.subplots()
+    tx.scatter(n, 3 * n, c='g', s=None, alpha=.7, label="Consecutive Integer Checking")
+    tx.scatter(n, 3*n,c = 'r',s = None, alpha = .7,label = "Euclidean Algorithm")
+    tx.set_ylabel("# of Divisions")
+    tx.set_xlabel("Value approaching N")
+    tx.axis([0, n, 0, n])
+    title2 = "Consecutive Integer Checking Algorithm " + title
+    tx.set_title(title2)
+
 
     divlist1 = []
     divlist2 = []
     for i in range(0,n):
         pack1 = gcd(i, n)
         pack2 = consecgcd(i, n)
-        ax.plot(i ,pack1[0],'ro',label = "Euclidean Algorithm",markersize=5,alpha=.7)
-        ax.plot(i, pack2[0], 'go', label="Consecutive Integer Checking Algorithm",markersize=5,alpha=.7)
+        ax.plot(i ,pack1[0],'ro',label = "Euclidean Algorithm",markersize=3,alpha=.7)
+        tx.plot(i, pack2[0], 'go', label="Consecutive Integer Checking Algorithm",markersize=3,alpha=.7)
         divlist1.append(pack1[0])
         divlist2.append(pack2[0])
 
 
     plt.show()
+
 
 def task2makeplot(mode):
     k = random.randint(500, 1000)
@@ -129,9 +141,10 @@ def task2makeplot(mode):
     ex.scatter(f[k], f[k], c=None, s=None, alpha=.7)
     ex.grid(False)
     ex.set_title(title)
-    ex.axis([0,k,0,k*3])
+    waba = int(f[10])
+    ex.axis([0,waba,0,100])
     ex.set_ylabel("# of divisions")
-    ex.set_xlabel("Digit of Fibonacci Sequence")
+    ex.set_xlabel("M")
     if mode == 0:
         ex.set_ylabel("Time Elapsed in nanoseconds.")
         ex.axis([0,k,0,1])
@@ -139,7 +152,7 @@ def task2makeplot(mode):
         then = time.process_time()
         pack = gcd(f[k-i], f[k - i - 1])
         if mode == 1:
-            ex.plot(k-i,pack[0],'ro',markersize=3)
+            ex.plot(f[k - i],pack[0],'ro',markersize=3)
         else:
             now = time.process_time()
             print("Operation clocked at:" ,now)
